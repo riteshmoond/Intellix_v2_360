@@ -1,99 +1,94 @@
-import React, { useState } from "react";
+import React, { useEffect } from "react"
 import logo from '../assets/logo.png';
-import Image from '../assets/formimage.png';
+import Image from '../assets/formimage.png'
 
 export default function ContactForm({ onClose }) {
-    const [formData, setFormData] = useState({
-        name: "",
-        institution: "",
-        contact: "",
-        email: "",
-    });
-    const [error, setError] = useState("");
-
-    const handleChange = (e) => {
-        setFormData({
-            ...formData,
-            [e.target.name]: e.target.value,
+    useEffect(() => {
+        const inputs = document.querySelectorAll('input[required]');
+        inputs.forEach(input => {
+            input.addEventListener('invalid', function () {
+                input.setCustomValidity('This field is required');
+            });
+            input.addEventListener('input', function () {
+                input.setCustomValidity('');
+            });
         });
-    };
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-
-        // validation check
-        if (!formData.name || !formData.institution || !formData.contact || !formData.email) {
-            setError("⚠️ Please fill in all the fields");
-            return;
-        }
-
-        setError(""); // clear error
-        console.log("Form Submitted ✅", formData);
-
-        // yaha aap API call ya backend submit kar sakte ho
-    };
+        return () => {
+            inputs.forEach(input => {
+                input.removeEventListener('invalid', () => {});
+                input.removeEventListener('input', () => {});
+            });
+        };
+    }, []);
 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30">
             <div className="bg-white rounded-xl shadow-lg flex flex-col md:flex-row w-full max-w-3xl md:h-[500px] overflow-hidden relative">
-                
                 {/* Close Button */}
                 <button
                     className="absolute top-4 right-4 text-2xl text-gray-400 hover:text-gray-600 z-20"
                     aria-label="Close"
-                    onClick={onClose}
+                    onClick={ onClose }
                 >
                     &times;
                 </button>
 
-                {/* Left Side Form */}
                 <div className="flex-1 p-8 flex flex-col justify-center">
+
                     <div className="flex items-center mb-2">
-                        <img src={logo} alt="" className="h-15 w-auto mr-2" />
+                        <img
+                            src={logo}
+                            alt=""
+                            className="h-15 w-auto mr-2"
+                        />
                     </div>
-                    <h2 className="text-3xl font-serif mb-1 mt-2">
-                        Get In touch <span className="inline-block ml-1">&rarr;</span>
-                    </h2>
-
-                    {/* Error Message */}
-                    {error && (
-                        <div className="text-red-600 text-sm mb-3 font-medium">{error}</div>
-                    )}
-
+                    <h2 className="text-3xl font-serif mb-1 mt-2">Get In touch <span className="inline-block ml-1">&rarr;</span></h2>
                     {/* Form */}
-                    <form className="mt-2 flex flex-col gap-3" onSubmit={handleSubmit}>
-                        <input
-                            type="text"
-                            name="name"
-                            placeholder="Enter your name"
-                            value={formData.name}
-                            onChange={handleChange}
-                            className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
-                        />
-                        <input
-                            type="text"
-                            name="institution"
-                            placeholder="Enter name of your institution"
-                            value={formData.institution}
-                            onChange={handleChange}
-                            className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
-                        />
-                        <input
-                            type="text"
-                            name="contact"
-                            placeholder="Enter your contact number"
-                            value={formData.contact}
-                            onChange={handleChange}
-                            className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
-                        />
-                        <input
-                            type="email"
-                            name="email"
-                            placeholder="Enter your email address"
-                            value={formData.email}
-                            onChange={handleChange}
-                            className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
-                        />
+                    <form className="mt-4 flex flex-col gap-3">
+                        <div className="relative">
+                            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
+                                <svg width="20" height="20" fill="none" stroke="currentColor"><path d="M15.5 14a5.5 5.5 0 10-11 0v.5A2.5 2.5 0 007 17h6a2.5 2.5 0 002.5-2.5V14z" /><circle cx="10" cy="7" r="4" /></svg>
+                            </span>
+                            <input
+                                type="text"
+                                placeholder="Enter your name"
+                                required
+                                className="w-full pl-10 pr-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+                            />
+                        </div>
+                        <div className="relative">
+                            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
+                                <svg width="20" height="20" fill="none" stroke="currentColor"><path d="M3 10V7a7 7 0 0114 0v3" /><rect x="3" y="10" width="14" height="7" rx="2" /><path d="M7 14h.01" /></svg>
+                            </span>
+                            <input
+                                type="text"
+                                placeholder="Enter name of your institution"
+                                required
+                                className="w-full pl-10 pr-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+                            />
+                        </div>
+                        <div className="relative">
+                            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
+                                <svg width="20" height="20" fill="none" stroke="currentColor"><path d="M2 8.5V6a2 2 0 012-2h12a2 2 0 012 2v2.5" /><rect x="2" y="8.5" width="16" height="7.5" rx="2" /><path d="M6 12h.01" /></svg>
+                            </span>
+                            <input
+                                type="text"
+                                placeholder="Enter your contact number"
+                                required
+                                className="w-full pl-10 pr-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+                            />
+                        </div>
+                        <div className="relative">
+                            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
+                                <svg width="20" height="20" fill="none" stroke="currentColor"><path d="M4 4h12v12H4z" /><path d="M22 6l-10 7L2 6" /></svg>
+                            </span>
+                            <input
+                                type="email"
+                                placeholder="Enter your email address"
+                                required
+                                className="w-full pl-10 pr-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+                            />
+                        </div>
                         <button
                             type="submit"
                             className="mt-4 w-full bg-blue-600 text-white py-2 rounded-lg font-semibold hover:bg-blue-700 transition"
@@ -111,8 +106,10 @@ export default function ContactForm({ onClose }) {
                         className="absolute inset-0 w-full h-full object-cover z-0"
                     />
                     <div className="absolute inset-0 bg-black/40 rounded-tr-xl rounded-br-xl z-10"></div>
+                    <div className="relative z-10 flex flex-col items-center justify-center h-full w-full">
+                    </div>
                 </div>
             </div>
         </div>
-    );
+    )
 }
