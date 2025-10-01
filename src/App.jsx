@@ -2,6 +2,7 @@
 import ContactForm from "./component/ContactForm"
 import Navbar from "./component/Navbar"
 import { BrowserRouter,Routes,Route } from "react-router-dom"
+import Home from "./component/Pages/Home"
 
 
 
@@ -11,6 +12,7 @@ function App() {
       <BrowserRouter>
       <Navbar />
       <Routes>
+        <Route path="/" element={<Home/>}/>
         <Route path="/contactForm" element={<ContactForm/>}/>
          <Route path="/products" element={<div className="h-screen flex items-center justify-center">Products Page</div>} />
         {/* <Route path="/products/Genius Strix" element={<div className="h-screen flex items-center justify-center">Genius Strix Page</div>} /> */}
