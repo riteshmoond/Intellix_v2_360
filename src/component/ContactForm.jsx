@@ -8,7 +8,7 @@ export default function ContactForm({ onClose }) {
             <div className="bg-white rounded-xl shadow-lg flex flex-col md:flex-row w-full max-w-3xl md:h-[500px] overflow-hidden relative">
                 {/* Close Button */}
                 <button
-                    className="absolute top-4 right-4 text-2xl text-gray-400 hover:text-gray-600"
+                    className="absolute top-4 right-4 text-2xl text-gray-400 hover:text-gray-600 z-20"
                     aria-label="Close"
                     onClick={ onClose }
                 >
@@ -81,9 +81,9 @@ export default function ContactForm({ onClose }) {
                     <img
                         src={Image}
                         alt="Form Visual"
-                        className="absolute inset-0 w-full h-full object-cover"
+                        className="absolute inset-0 w-full h-full object-cover z-0"
                     />
-                    <div className="absolute inset-0 bg-black/40 rounded-tr-xl rounded-br-xl"></div>
+                    <div className="absolute inset-0 bg-black/40 rounded-tr-xl rounded-br-xl z-10"></div>
                     <div className="relative z-10 flex flex-col items-center justify-center h-full w-full">
                     </div>
                 </div>
