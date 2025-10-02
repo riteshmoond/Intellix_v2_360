@@ -13,7 +13,7 @@ export default function Navbar() {
   return (
     <>
       <header className="w-full border-b bg-white">
-        <div className="container mx-auto flex h-16 items-center justify-around px-4">
+        <div className="container mx-auto flex h-20 items-center justify-around px-4">
 
           {/* Logo */}
           <img
@@ -25,15 +25,28 @@ export default function Navbar() {
 
           {/* Mobile Menu Button */}
           <div className="md:hidden">
-            <button
-              className="flex flex-col justify-center items-center w-8 h-8"
-              onClick={() => setMobileOpen((prev) => !prev)}
-              aria-label="Open Menu"
-            >
-              <span className="block w-6 h-0.5 bg-black mb-1"></span>
-              <span className="block w-6 h-0.5 bg-black mb-1"></span>
-              <span className="block w-6 h-0.5 bg-black"></span>
-            </button>
+            {mobileOpen ? (
+              <button
+                className="flex justify-center items-center w-8 h-8"
+                onClick={() => setMobileOpen(false)}
+                aria-label="Close Menu"
+              >
+                {/* Close Icon */}
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-6 h-6">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            ) : (
+              <button
+                className="flex flex-col justify-center items-center w-8 h-8"
+                onClick={() => setMobileOpen(true)}
+                aria-label="Open Menu"
+              >
+                <span className="block w-6 h-0.5 bg-black mb-1"></span>
+                <span className="block w-6 h-0.5 bg-black mb-1"></span>
+                <span className="block w-6 h-0.5 bg-black"></span>
+              </button>
+            )}
           </div>
 
           {/* Nav Links (Desktop) */}
@@ -73,15 +86,14 @@ export default function Navbar() {
 
         {/* Mobile Nav */}
         <nav
-          className={`md:hidden px-4 pb-4 bg-white border-b transition-all duration-200 ${mobileOpen ? "block" : "hidden"
-            }`}
+          className={`md:hidden px-4 pb-4 bg-white border-b transition-all duration-200 ${mobileOpen ? "block" : "hidden"}`}
         >
-          <div className="flex flex-col space-y-2 font-medium">
-            <a href="/products" className="hover:text-primary">Products</a>
-            <a href="/pricing" className="hover:text-primary">Pricing</a>
-            <a href="/support" className="hover:text-primary">Help & Support</a>
-            <a href="/talk-to-sale" className="hover:text-primary">Talk to Sales</a>
-            <Button onClick={() => setFormOpen(true)} className="mt-2 w-full">Get Started</Button>
+          <div className="flex flex-col space-y-2 font-medium text-base sm:text-lg md:text-base">
+            <a href="/products" className="hover:text-primary text-sm xs:text-base sm:text-lg">Products</a>
+            <a href="/pricing" className="hover:text-primary text-sm xs:text-base sm:text-lg">Pricing</a>
+            <a href="/support" className="hover:text-primary text-sm xs:text-base sm:text-lg">Help & Support</a>
+            <a href="/talk-to-sale" className="hover:text-primary text-sm xs:text-base sm:text-lg">Talk to Sales</a>
+            <Button onClick={() => setFormOpen(true)} className="mt-2 w-full text-sm xs:text-base sm:text-lg">Get Started</Button>
           </div>
         </nav>
       </header>

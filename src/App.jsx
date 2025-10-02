@@ -2,7 +2,8 @@
 import ContactForm from "./component/ContactForm"
 import Navbar from "./component/Navbar"
 import { BrowserRouter,Routes,Route } from "react-router-dom"
-import Home from "./component/Pages/Home"
+import Home from "./Pages/Home"
+import "./app.css"
 
 
 
@@ -18,7 +19,7 @@ function App() {
       </BrowserRouter>
       
       
-      {/* jhiy */}
+      
     </div>
   )
 }
