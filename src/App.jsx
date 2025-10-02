@@ -3,7 +3,7 @@ import ContactForm from "./component/ContactForm"
 import Navbar from "./component/Navbar"
 import { BrowserRouter,Routes,Route } from "react-router-dom"
 import Home from "./Pages/Home"
-import "./app.css"
+
 
 
 
