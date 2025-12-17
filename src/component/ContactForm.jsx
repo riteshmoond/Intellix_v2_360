@@ -22,7 +22,7 @@ export default function ContactForm({ onClose }) {
     }, []);
 
     return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70">
             <div className="bg-white rounded-xl shadow-lg flex flex-col md:flex-row w-full max-w-3xl md:h-[500px] overflow-hidden relative">
                 {/* Close Button */}
                 <button
@@ -109,6 +109,7 @@ export default function ContactForm({ onClose }) {
                     <div className="relative z-10 flex flex-col items-center justify-center h-full w-full">
                     </div>
                 </div>
+                
             </div>
         </div>
     )

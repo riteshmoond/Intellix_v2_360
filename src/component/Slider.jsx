@@ -17,6 +17,23 @@ const items = [
 const Carousel = () => {
   const sliderRef = useRef(null);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const intervalRef = useRef(null);
+
+  // responsive visibleItems
+  const getVisibleItems = () => {
+    if (window.innerWidth < 768) return 1; // sm
+    if (window.innerWidth < 1024) return 2; // md
+    return 4; // lg
+  };
+
+  const [visibleItems, setVisibleItems] = useState(getVisibleItems());
+
+  // update visibleItems on resize
+  useEffect(() => {
+    const handleResize = () => setVisibleItems(getVisibleItems());
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const nextSlide = () => {
     setCurrentIndex((prev) => (prev + 1) % items.length);
@@ -26,70 +43,98 @@ const Carousel = () => {
     setCurrentIndex((prev) => (prev - 1 + items.length) % items.length);
   };
 
-  // Auto-scroll every 1 second
+  // Auto-scroll with reset on manual click
   useEffect(() => {
-    const interval = setInterval(nextSlide, 1000);
-    return () => clearInterval(interval);
+    const startAutoScroll = () => {
+      intervalRef.current = setInterval(nextSlide, 2000); // 2 sec auto-scroll
+    };
+
+    startAutoScroll();
+
+    return () => clearInterval(intervalRef.current);
   }, []);
 
-  // Scroll smoothly
+  const handleManualNext = () => {
+    clearInterval(intervalRef.current);
+    nextSlide();
+  };
+
+  const handleManualPrev = () => {
+    clearInterval(intervalRef.current);
+    prevSlide();
+  };
+
   useEffect(() => {
     if (sliderRef.current) {
       const slider = sliderRef.current;
-      const cardWidth = slider.firstChild.offsetWidth + 16; // gap
-      slider.scrollTo({
-        left: cardWidth * currentIndex,
-        behavior: "smooth",
-      });
+      const card = slider.querySelector(".carousel-card");
+      if (card) {
+        const cardWidth = card.offsetWidth + 16; // gap
+        slider.scrollTo({
+          left: cardWidth * currentIndex,
+          behavior: "smooth",
+        });
+      }
     }
   }, [currentIndex]);
 
   return (
-    <section className="py-12 bg-orange-50">
-         {/* Section Heading */}
-      <h2 className="text-2xl md:text-3xl font-bold text-orange-600 text-center mt-6">
+    <section className="py-12 bg-white">
+      <h2 className=" text-2xl md:text-3xl font-bold text-orange-600 text-center mb-6">
         Our Clients
       </h2>
-      <div className="relative w-full overflow-hidden px-4 ">
+
+      <div className="relative w-full px-[50px]">
         {/* Slider */}
         <div
           ref={sliderRef}
-          className="flex gap-4 transition-all duration-500 overflow-x-hidden justify-center"
+          className="flex gap-4 overflow-hidden"
+          style={{ scrollBehavior: "smooth" }}
         >
           {items.map((item) => (
-            <div
-              key={item.id}
-              className="flex-shrink-0 w-[120px] sm:w-[140px] md:w-[160px] lg:w-[180px] h-[120px] sm:h-[140px] md:h-[160px] lg:h-[180px]
-                         bg-white flex flex-col items-center justify-center rounded-full shadow-lg border border-orange-200 text-center"
-            >
-              <img
-                src={item.img}
-                alt={item.name}
-                className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 lg:w-20 lg:h-20 object-contain mb-2"
-              />
-              <span className="text-orange-600 font-semibold text-sm sm:text-base md:text-lg">
-                {item.name}
-              </span>
-            </div>
+           <div
+  key={item.id}
+  className={`
+    carousel-card flex-shrink-0 
+    ${visibleItems === 1 ? "w-full" : ""}
+    ${visibleItems === 2 ? "w-1/2" : ""}
+    ${visibleItems === 4 ? "w-1/4" : ""}
+    h-[200px]  bg-white flex flex-col items-center justify-center 
+    rounded-xl shadow-md border border-orange-300 text-center
+  `}
+>
+  <img
+    src={item.img}
+    alt={item.name}
+    className="w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 lg:w-32 lg:h-32  mb-2 rounded-full"
+  />
+  <span className="text-orange-600 font-semibold text-base">
+    {item.name}
+  </span>
+</div>
+
           ))}
         </div>
 
         {/* Arrows */}
         <button
-          onClick={prevSlide}
+          onClick={handleManualPrev}
           className="absolute top-1/2 left-2 -translate-y-1/2 bg-white/70 hover:bg-white text-orange-600 rounded-full p-3 shadow-md"
         >
           &#10094;
         </button>
+
         <button
-          onClick={nextSlide}
+          onClick={handleManualNext}
           className="absolute top-1/2 right-2 -translate-y-1/2 bg-white/70 hover:bg-white text-orange-600 rounded-full p-3 shadow-md"
         >
           &#10095;
         </button>
       </div>
-
-     
+      <br />
+      <h6 className="font-bold text-orange-600 text-center mb-6">
+       +2000 Other
+      </h6>
     </section>
   );
 };
